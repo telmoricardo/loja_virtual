@@ -2,6 +2,8 @@ package com.telmo.loja_api.dto;
 
 import lombok.*;
 
+import java.util.UUID;
+
 @Data
 @Getter
 @Setter
@@ -9,7 +11,7 @@ import lombok.*;
 @NoArgsConstructor
 public class EstadoDto {
 
-    private String id;
+    private UUID id;
     private String nome;
     private String sigla;
     private String regiao;

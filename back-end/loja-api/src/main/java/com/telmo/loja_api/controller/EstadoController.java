@@ -22,11 +22,30 @@ public class EstadoController {
     @Autowired
     ModelMapper mapper;
 
-
+    @CrossOrigin(origins = "http://localhost:3000")
     @PostMapping
-    public ResponseEntity<Estado> criar(@RequestBody EstadoDto obj) {
-        Estado newObj = service.salvar(obj);
-        return ResponseEntity.status(HttpStatus.CREATED).body(newObj);
+    public ResponseEntity<?> criar(@RequestBody EstadoDto obj) {
+        try {
+            Estado newObj = service.salvar(obj);
+            return ResponseEntity.status(HttpStatus.CREATED).body(newObj);
+        } catch (RuntimeException ex) {
+            return ResponseEntity
+                    .status(HttpStatus.BAD_REQUEST) // Retorna 400 Bad Request
+                    .body(ex.getMessage()); // Retorna a mensagem da exceção
+        }
+    }
+
+    @CrossOrigin(origins = "http://localhost:3000")
+    @PutMapping
+    public ResponseEntity<?> editar(@RequestBody EstadoDto obj) {
+        try {
+            Estado newObj = service.editar(obj);
+            return ResponseEntity.status(HttpStatus.CREATED).body(newObj);
+        } catch (RuntimeException ex) {
+            return ResponseEntity
+                    .status(HttpStatus.BAD_REQUEST) // Retorna 400 Bad Request
+                    .body(ex.getMessage()); // Retorna a mensagem da exceção
+        }
     }
 
     @GetMapping("/{sigla}")
@@ -34,8 +53,8 @@ public class EstadoController {
         return ResponseEntity.ok().body(mapper.map(service.buscarPorSigla(sigla), EstadoDto.class));
     }
 
+    @CrossOrigin(origins = "http://localhost:3000")
     @GetMapping
-    @CrossOrigin("http://localhost:3000")
     public ResponseEntity<List<EstadoDto>> findAll() {
         return ResponseEntity.ok().body(
                 service.findAll().stream().map(x -> mapper.map(x, EstadoDto.class)).collect(Collectors.toList()));

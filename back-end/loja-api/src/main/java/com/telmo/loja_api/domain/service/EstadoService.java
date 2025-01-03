@@ -36,4 +36,11 @@ public class EstadoService {
     public List<Estado> findAll() {
         return repository.findAll();
     }
+
+    public Estado editar(EstadoDto obj) {
+        if (repository.findById(obj.getId()).isPresent()) {
+            return repository.save(mapper.map(obj, Estado.class));
+        }
+        throw new RuntimeException("Náo existe estado com o nome " + obj.getNome() + " e sigla " + obj.getSigla());
+    }
 }
