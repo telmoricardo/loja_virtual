@@ -7,8 +7,14 @@ export class EstadoService {
     
  
     listarTodos() {
-        console.log(this.baseURL);
-        
         return axios.get(this.baseURL + '/estado');            
     }
+
+    alterar(objeto) {
+        return axios.put(this.baseURL + '/estado', objeto)
+    }
+
+   inserir(objeto) {
+    return axios.post(this.baseURL + '/estado', objeto); 
+   }
 }
